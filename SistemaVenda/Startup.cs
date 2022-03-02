@@ -26,7 +26,6 @@ namespace SistemaVenda
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer("Server=.;Database=Estoque;Trusted_Connection=True;MultipleActiveResultSets=true;"));
 
@@ -60,7 +59,7 @@ namespace SistemaVenda
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }

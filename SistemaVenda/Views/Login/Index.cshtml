@@ -1,0 +1,38 @@
+﻿@model SistemaVenda.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<link href="~/css/Login.css" rel="stylesheet"/>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+        <div class="col-md-12">
+
+        </div>
+      <img src="~/img/logo.png" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <form asp-controller="Login" asp-action="Index" method="post">
+      <input asp-for="Email" type="text" id="Email" class="fadeIn second" name="Email" placeholder="Email">
+      <span asp-validation-for="Email" class="text-danger"></span>
+      <input asp-for="Senha" type="password" id="Senha" class="fadeIn third" name="Senha" placeholder="Senha">
+      <span asp-validation-for="Senha" class="text-danger"></span>
+      <br />
+      <input type="submit" class="fadeIn fourth" value="Entrar">
+      <br />
+
+      <span class="text-danger">@ViewData["Erro"]</span>
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Esqueceu a senha?</a>
+    </div>
+
+  </div>
+</div>

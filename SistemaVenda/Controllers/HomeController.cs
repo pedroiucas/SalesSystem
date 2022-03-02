@@ -14,11 +14,13 @@ namespace SistemaVenda.Controllers
     public class HomeController : Controller
     {
         protected ApplicationDbContext Repositorio;
+
         public HomeController(ApplicationDbContext repositorio)
         {
             Repositorio = repositorio;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
