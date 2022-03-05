@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace SistemaVenda.DAL
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Produto> Produto { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
@@ -16,7 +20,6 @@ namespace SistemaVenda.DAL
         public DbSet<Venda> Venda { get; set; }
         public DbSet<VendaProdutos> VendaProdutos { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -32,7 +35,6 @@ namespace SistemaVenda.DAL
                 .HasOne(x => x.Produto)
                 .WithMany(y => y.Vendas)
                 .HasForeignKey(x => x.CodigoProduto);
-
         }
     }
 }
