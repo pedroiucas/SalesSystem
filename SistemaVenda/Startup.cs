@@ -11,6 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Aplicacao.Servico.Interfaces;
+using Aplicacao.Servico;
+using Dominio.Servicos.Categoria;
+using Dominio.Interfaces;
 
 namespace SistemaVenda
 {
@@ -23,7 +27,6 @@ namespace SistemaVenda
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -32,10 +35,15 @@ namespace SistemaVenda
             services.AddHttpContextAccessor();
 
             services.AddSession();
+            //Aplicação
+            services.AddScoped<IServicoAplicacaoCategoria, ServicoAplicacaoCategoria>();
+
+            //Dominio
+            services.AddScoped<IServicoCategoria, ServicoCategoria>();
+
             services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -45,7 +53,6 @@ namespace SistemaVenda
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
