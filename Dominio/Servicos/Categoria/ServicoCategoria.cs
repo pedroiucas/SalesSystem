@@ -1,4 +1,5 @@
 ﻿using Dominio.Interfaces;
+using Dominio.Repositorio;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,13 @@ namespace Dominio.Servicos.Categoria
 {
     public class ServicoCategoria : IServicoCategoria
     {
+        private IRepositorioCategoria RepositorioCategoria;
+
+        public ServicoCategoria(IRepositorioCategoria RepositorioCategoria)
+        {
+            this.RepositorioCategoria = RepositorioCategoria;
+        }
+
         public void Cadastrar(SistemaVenda.Dominio.Entidades.Categoria categoria)
         {
             throw new NotImplementedException();
@@ -24,7 +32,7 @@ namespace Dominio.Servicos.Categoria
 
         public IEnumerable<SistemaVenda.Dominio.Entidades.Categoria> Listagem()
         {
-            throw new NotImplementedException();
+            return RepositorioCategoria.Read();
         }
     }
 }

@@ -15,6 +15,8 @@ using Aplicacao.Servico.Interfaces;
 using Aplicacao.Servico;
 using Dominio.Servicos.Categoria;
 using Dominio.Interfaces;
+using Dominio.Repositorio;
+using Repositorio.Entidades;
 
 namespace SistemaVenda
 {
@@ -32,6 +34,9 @@ namespace SistemaVenda
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("MyStock")));
 
+            services.AddDbContext<Repositorio.Contexto.ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("MyStock")));
+
             services.AddHttpContextAccessor();
 
             services.AddSession();
@@ -40,6 +45,9 @@ namespace SistemaVenda
 
             //Dominio
             services.AddScoped<IServicoCategoria, ServicoCategoria>();
+
+            //Repositorio
+            services.AddScoped<IRepositorioCategoria, RepositorioCategoria>();
 
             services.AddControllersWithViews();
         }

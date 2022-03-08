@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SistemaVenda.Entidades;
+using SistemaVenda.Dominio.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SistemaVenda.DAL
+namespace Repositorio.Contexto
 {
     public class ApplicationDbContext : DbContext
     {
