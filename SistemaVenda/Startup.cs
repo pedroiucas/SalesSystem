@@ -17,6 +17,7 @@ using Dominio.Servicos.Categoria;
 using Dominio.Interfaces;
 using Dominio.Repositorio;
 using Repositorio.Entidades;
+using Dominio.Servicos.Cliente;
 
 namespace SistemaVenda
 {
@@ -42,12 +43,15 @@ namespace SistemaVenda
             services.AddSession();
             //Aplicação
             services.AddScoped<IServicoAplicacaoCategoria, ServicoAplicacaoCategoria>();
+            services.AddScoped<IServicoAplicacaoCliente, ServicoAplicacaoCliente>();
 
             //Dominio
             services.AddScoped<IServicoCategoria, ServicoCategoria>();
+            services.AddScoped<IServicoCliente, ServicoCliente>();
 
             //Repositorio
             services.AddScoped<IRepositorioCategoria, RepositorioCategoria>();
+            services.AddScoped<IRepositorioCliente, RepositorioCliente>();
 
             services.AddControllersWithViews();
         }

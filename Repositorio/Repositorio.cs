@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dominio.Entidades;
+using Microsoft.EntityFrameworkCore;
 using Repositorio.Interfaces;
 using SistemaVenda.Dominio.Entidades;
 using System;
@@ -9,7 +10,7 @@ using System.Text;
 namespace Repositorio
 {
     public abstract class Repositorio<TEntidade> : DbContext, IRepositorio<TEntidade>
-        where TEntidade : class, new()
+        where TEntidade : EntityBase, new()
     {
         private DbContext Db;
         private DbSet<TEntidade> DbSetContext;
@@ -22,12 +23,24 @@ namespace Repositorio
 
         public void Create(TEntidade Entidade)
         {
-            throw new NotImplementedException();
+            if (Entidade.Codigo == null)
+            {
+                DbSetContext.Add(Entidade);
+            }
+            else
+            {
+                Db.Entry(Entidade).State = EntityState.Modified;
+            }
+
+            Db.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var ent = new TEntidade { Codigo = id };
+            DbSetContext.Attach(ent);
+            DbSetContext.Remove(ent);
+            Db.SaveChanges();
         }
 
         public IEnumerable<TEntidade> Read()
@@ -37,7 +50,7 @@ namespace Repositorio
 
         public TEntidade Read(int id)
         {
-            throw new NotImplementedException();
+            return DbSetContext.Where(x => x.Codigo == id).FirstOrDefault();
         }
     }
 }

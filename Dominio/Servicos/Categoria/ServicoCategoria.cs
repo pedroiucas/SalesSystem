@@ -17,17 +17,17 @@ namespace Dominio.Servicos.Categoria
 
         public void Cadastrar(SistemaVenda.Dominio.Entidades.Categoria categoria)
         {
-            throw new NotImplementedException();
+            RepositorioCategoria.Create(categoria);
         }
 
         public SistemaVenda.Dominio.Entidades.Categoria CarregarRegistro(int id)
         {
-            throw new NotImplementedException();
+            return RepositorioCategoria.Read(id);
         }
 
         public void Excluir(int id)
         {
-            throw new NotImplementedException();
+            RepositorioCategoria.Delete(id);
         }
 
         public IEnumerable<SistemaVenda.Dominio.Entidades.Categoria> Listagem()
