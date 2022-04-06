@@ -1,5 +1,6 @@
 ﻿using Aplicacao.Servico.Interfaces;
 using Dominio.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaVenda.Dominio.Entidades;
 using SistemaVenda.Models;
 using System.Collections.Generic;
@@ -73,6 +74,25 @@ namespace Aplicacao.Servico
             }
 
             return listaCliente;
+        }
+
+        public IEnumerable<SelectListItem> ListagemSelectList()
+        {
+            List<SelectListItem> listaSelect = new List<SelectListItem>();
+            var listaCategorias = Listagem();
+
+            foreach (var item in listaCategorias)
+            {
+                SelectListItem selectListItem = new SelectListItem()
+                {
+                    Value = item.Codigo.ToString(),
+                    Text = item.Nome
+                };
+
+                listaSelect.Add(selectListItem);
+            }
+
+            return listaSelect;
         }
     }
 }

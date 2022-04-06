@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SistemaVenda.DAL;
+﻿using Aplicacao.Servico.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using SistemaVenda.Models;
 using System;
 using System.Collections.Generic;
@@ -10,22 +10,15 @@ namespace SistemaVenda.Controllers
 {
     public class RelatorioController : Controller
     {
-        protected ApplicationDbContext mContext;
-
-        public RelatorioController(ApplicationDbContext context)
+        readonly IServicoAplicacaoVenda servicoVenda;
+        public RelatorioController(IServicoAplicacaoVenda servicoVenda)
         {
-            mContext = context;
+            this.servicoVenda = servicoVenda;
         }
 
         public IActionResult Grafico()
         {
-            var lista = mContext.VendaProdutos.OrderBy(y => y.CodigoProduto)
-            .Select(y => new GraficoViewModel
-            {
-                CodigoProduto = y.CodigoProduto,
-                Descricao = y.Produto.Descricao,
-                TotalVendido = mContext.VendaProdutos.Where(e => e.CodigoProduto == y.CodigoProduto).Sum(z => z.Quantidade)
-            }).Distinct().ToList();
+            var lista = servicoVenda.ListaGrafico().ToList();
 
             string Valores = string.Empty;
             string Labels = string.Empty;

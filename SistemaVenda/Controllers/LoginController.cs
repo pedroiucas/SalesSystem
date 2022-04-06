@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Aplicacao.Servico.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SistemaVenda.DAL;
 using SistemaVenda.Helpers;
 using SistemaVenda.Models;
 using System.Linq;
@@ -9,12 +9,12 @@ namespace SistemaVenda.Controllers
 {
     public class LoginController : Controller
     {
-        protected ApplicationDbContext mContext;
+        readonly IServicoAplicacaoUsuario servicoAplicacaoUsuario;
         protected IHttpContextAccessor httpContext;
 
-        public LoginController(ApplicationDbContext context, IHttpContextAccessor httpContext)
+        public LoginController(IHttpContextAccessor httpContext, IServicoAplicacaoUsuario servicoAplicacaoUsuario)
         {
-            this.mContext = context;
+            this.servicoAplicacaoUsuario = servicoAplicacaoUsuario;
             this.httpContext = httpContext;
         }
 
@@ -39,9 +39,11 @@ namespace SistemaVenda.Controllers
             if (ModelState.IsValid)
             {
                 var Senha = Criptografia.GerarMD5Hash(model.Senha);
-                var usuario = mContext.Usuario.Where(x => x.Email == model.Email && x.Senha == Senha).FirstOrDefault();
 
-                if (usuario == null)
+                bool validacao = servicoAplicacaoUsuario.ValidarLogin(model.Email, Senha);
+                var usuario = servicoAplicacaoUsuario.CarregarRegistro(model.Email, Senha);
+
+                if (!validacao)
                 {
                     ViewData["Erro"] = "O Email ou Senha informado não existe no sistema";
                     return View(model);

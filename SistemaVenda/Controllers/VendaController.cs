@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Aplicacao.Servico.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using SistemaVenda.DAL;
-using SistemaVenda.Entidades;
 using SistemaVenda.Models;
 using System;
 using System.Collections.Generic;
@@ -14,35 +11,29 @@ namespace SistemaVenda.Controllers
 {
     public class VendaController : Controller
     {
-        protected ApplicationDbContext mContext;
+        private readonly IServicoAplicacaoVenda ServicoAplicacaoVenda;
+        private readonly IServicoAplicacaoProduto ServicoAplicacaoProduto;
+        private readonly IServicoAplicacaoCliente ServicoAplicacaoCliente;
 
-        public VendaController(ApplicationDbContext context)
+        public VendaController(IServicoAplicacaoVenda ServicoAplicacaoVenda, IServicoAplicacaoProduto ServicoAplicacaoProduto, IServicoAplicacaoCliente ServicoAplicacaoCliente)
         {
-            mContext = context;
+            this.ServicoAplicacaoVenda = ServicoAplicacaoVenda;
+            this.ServicoAplicacaoProduto = ServicoAplicacaoProduto;
+            this.ServicoAplicacaoCliente = ServicoAplicacaoCliente;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Venda> lista = mContext.Venda.ToList();
-            mContext.Dispose();
-            return View(lista);
+            return View(ServicoAplicacaoVenda.Listagem());
         }
 
         [HttpGet]
         public IActionResult Cadastro(int? id)
         {
-            VendaViewModel viewModel = new VendaViewModel();
-            viewModel.ListaClientes = ListaClientes();
-            viewModel.ListaProdutos = ListaProdutos();
+            var viewModel = ServicoAplicacaoVenda.CarregarRegistro(id is null ? 0 : (int)id);
 
-            if (id != null)
-            {
-                var entidade = mContext.Venda.Where(e => e.Codigo == id).FirstOrDefault();
-                viewModel.Codigo = entidade.Codigo;
-                viewModel.Data = entidade.Data;
-                viewModel.CodigoCliente = entidade.CodigoCliente;
-                viewModel.Total = entidade.Total;
-            }
+            viewModel.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList();
+            viewModel.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList();
 
             return View(viewModel);
         }
@@ -52,30 +43,12 @@ namespace SistemaVenda.Controllers
         {
             if (ModelState.IsValid)
             {
-                Venda objVenda = new Venda()
-                {
-                    Codigo = entidade.Codigo,
-                    Data = (DateTime)entidade.Data,
-                    CodigoCliente = (int)entidade.CodigoCliente,
-                    Total = (decimal)entidade.Total,
-                    Produtos = JsonConvert.DeserializeObject<ICollection<VendaProdutos>>(entidade.JsonProdutos),
-                };
-
-                if (entidade.Codigo == null)
-                {
-                    mContext.Venda.Add(objVenda);
-                }
-                else
-                {
-                    mContext.Entry(objVenda).State = EntityState.Modified;
-                }
-
-                mContext.SaveChanges();
+                ServicoAplicacaoVenda.Cadastrar(entidade);
             }
             else
             {
-                entidade.ListaClientes = ListaClientes();
-                entidade.ListaProdutos = ListaProdutos();
+                entidade.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList();
+                entidade.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList();
                 return View(entidade);
             }
 
@@ -85,62 +58,14 @@ namespace SistemaVenda.Controllers
         [HttpGet]
         public IActionResult Excluir(int id)
         {
-            var ent = new Venda()
-            {
-                Codigo = id
-            };
-            mContext.Attach(ent);
-            mContext.Remove(ent);
-            mContext.SaveChanges();
+            ServicoAplicacaoVenda.Excluir(id);
             return RedirectToAction("Index");
-        }
-
-        private IEnumerable<SelectListItem> ListaProdutos()
-        {
-            List<SelectListItem> lista = new List<SelectListItem>();
-            lista.Add(new SelectListItem()
-            {
-                Value = string.Empty,
-                Text = string.Empty,
-            });
-
-            foreach (var item in mContext.Produto.ToList())
-            {
-                lista.Add(new SelectListItem()
-                {
-                    Value = item.Codigo.ToString(),
-                    Text = item.Descricao.ToString(),
-                });
-            }
-
-            return lista;
-        }
-
-        private IEnumerable<SelectListItem> ListaClientes()
-        {
-            List<SelectListItem> lista = new List<SelectListItem>();
-            lista.Add(new SelectListItem()
-            {
-                Value = string.Empty,
-                Text = string.Empty,
-            });
-
-            foreach (var item in mContext.Cliente.ToList())
-            {
-                lista.Add(new SelectListItem()
-                {
-                    Value = item.Codigo.ToString(),
-                    Text = item.Nome.ToString(),
-                });
-            }
-
-            return lista;
         }
 
         [HttpGet("LerValorProduto/{CodigoProduto}")]
         public decimal LerValorProduto(int CodigoProduto)
         {
-            return mContext.Produto.Where(x => x.Codigo == CodigoProduto).Select(x => x.Valor).FirstOrDefault();
+            return (decimal)ServicoAplicacaoProduto.CarregarRegistro(CodigoProduto).Valor;
         }
     }
 }

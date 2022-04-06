@@ -12,8 +12,8 @@ namespace Repositorio
     public abstract class Repositorio<TEntidade> : DbContext, IRepositorio<TEntidade>
         where TEntidade : EntityBase, new()
     {
-        private DbContext Db;
-        private DbSet<TEntidade> DbSetContext;
+        protected DbContext Db;
+        protected DbSet<TEntidade> DbSetContext;
 
         public Repositorio(DbContext dbContext)
         {
@@ -21,7 +21,7 @@ namespace Repositorio
             DbSetContext = Db.Set<TEntidade>();
         }
 
-        public void Create(TEntidade Entidade)
+        public virtual void Create(TEntidade Entidade)
         {
             if (Entidade.Codigo == null)
             {
@@ -35,7 +35,7 @@ namespace Repositorio
             Db.SaveChanges();
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             var ent = new TEntidade { Codigo = id };
             DbSetContext.Attach(ent);
@@ -43,12 +43,12 @@ namespace Repositorio
             Db.SaveChanges();
         }
 
-        public IEnumerable<TEntidade> Read()
+        public virtual IEnumerable<TEntidade> Read()
         {
             return DbSetContext.AsNoTracking().ToList();
         }
 
-        public TEntidade Read(int id)
+        public virtual TEntidade Read(int id)
         {
             return DbSetContext.Where(x => x.Codigo == id).FirstOrDefault();
         }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SistemaVenda.DAL;
-using SistemaVenda.Entidades;
 using SistemaVenda.Models;
 using System;
 using System.Collections.Generic;
@@ -13,11 +11,8 @@ namespace SistemaVenda.Controllers
 {
     public class HomeController : Controller
     {
-        protected ApplicationDbContext Repositorio;
-
-        public HomeController(ApplicationDbContext repositorio)
+        public HomeController()
         {
-            Repositorio = repositorio;
         }
 
         [HttpGet]
