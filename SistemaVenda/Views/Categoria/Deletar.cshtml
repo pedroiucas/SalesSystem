@@ -6,7 +6,7 @@
 <h2>Categoria</h2>
 <hr />
 
-<form asp-controller="Categoria" asp-action="Cadastro" method="post">
+<form asp-controller="Categoria" asp-action="Deletar" method="post">
     <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
     <div class="form-group">
         <div class="col-4">
@@ -16,7 +16,7 @@
         </div>
         <br />
         <div class="col">
-            <button type="submit" class="btn btn-success">Gravar</button>
+            <button type="submit" class="btn btn-danger">Deletar</button>
         </div>
     </div>
 </form>

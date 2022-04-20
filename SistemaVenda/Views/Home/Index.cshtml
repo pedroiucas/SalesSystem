@@ -1,59 +1,98 @@
-﻿@{
-    ViewData["Title"] = "Menu";
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContext
+
+@{
+    var logado = 0;
+    var primeiroNome = string.Empty;
+
+    try
+    {
+        logado =  (int)HttpContext.HttpContext.Session.GetInt32(SistemaVenda.Helpers.Sessao.Logado);
+
+        if (logado == 1)
+        {
+            primeiroNome =  HttpContext.HttpContext.Session.GetString(SistemaVenda.Helpers.Sessao.PrimeiroNome);
+        }
+    }
+    catch
+    {
+        HttpContext.HttpContext.Response.Redirect("/Login");
+    }
+
+    ViewData["Title"] = "Home";
 }
-<div class="row" style="text-align: center ">
-    <div class="col-md-4">
-        <div>
-            <a href="../Cliente/Index">
-                <img src="~/img/clientes.png" width="150" heigth="150" />
-            </a>
-        </div>
-        <span>Cadastro de Clientes</span>
-    </div>
-    <div class="col-md-4">
-        <div>
-            <a href="../Categoria/Index">
-                <img src="~/img/categorias.png" width="150" heigth="150" />
-            </a>
-        </div>
-        <span>Cadastro de Categorias</span>
-    </div>
-    <div class="col-md-4">
-        <div>
-            <a href="../Produto/Index">
-                <img src="~/img/produtos.png" width="150" heigth="150" />
-            </a>
-        </div>
-        <span>Cadastro de Produtos</span>
-    </div>
-</div>
-
 <br />
 <br />
+<div class="panel panel-inverse">
+    <div class="panel-body">
+        <div class="note note-blue mb-2">
+            <div class="note-icon" style="color:white"><i class="material-icons">person</i></div>
+            <div class="note-content" style="color:white">
+                <h4><b>Bem vindo de volta, @primeiroNome.</b></h4>
+                <p>
+                   Selecione uma <strong class="text-orange">opção</strong> do <strong class="text-orange">menu</strong> abaixo.
+                </p>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row" style="text-align: center ">
+            <div class="col-md-4">
+                <div>
+                    <a href="../Cliente/Index">
+                        <img src="~/img/clientes.png" width="150" heigth="150" />
+                    </a>
+                </div>
+                <span>Cadastro de Clientes</span>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <a href="../Categoria/Index">
+                        <img src="~/img/categorias.png" width="150" heigth="150" />
+                    </a>
+                </div>
+                <span>Cadastro de Categorias</span>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <a href="../Produto/Index">
+                        <img src="~/img/produtos.png" width="150" heigth="150" />
+                    </a>
+                </div>
+                <span>Cadastro de Produtos</span>
+            </div>
+        </div>
 
-<div class="row" style="text-align: center ">
-    <div class="col-md-4">
-        <div>
-            <a href="../Venda/Index">
-                <img src="~/img/vendas.png" width="150" heigth="150" />
-            </a>
+        <br />
+        <br />
+
+        <div class="row" style="text-align: center ">
+            <div class="col-md-4">
+                <div>
+                    <a href="../Venda/Index">
+                        <img src="~/img/vendas.png" width="150" heigth="150" />
+                    </a>
+                </div>
+                <span>Registro de Vendas</span>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <a href="../Relatorio/Grafico">
+                        <img src="~/img/relatorios.png" width="150" heigth="150" />
+                    </a>
+                </div>
+                <span>Relatórios</span>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <a href="../Configuracao/Index">
+                        <img src="~/img/configuracoes.png" width="150" heigth="150" />
+                    </a>
+                </div>
+                <span>Configurações</span>
+            </div>
         </div>
-        <span>Registro de Vendas</span>
-    </div>
-    <div class="col-md-4">
-        <div>
-            <a href="../Relatorio/Grafico">
-                <img src="~/img/relatorios.png" width="150" heigth="150" />
-            </a>
-        </div>
-        <span>Relatórios</span>
-    </div>
-    <div class="col-md-4">
-        <div>
-            <a href="../Configuracao/Index">
-                <img src="~/img/configuracoes.png" width="150" heigth="150" />
-            </a>
-        </div>
-        <span>Configurações</span>
+        <br />
+        <br />
     </div>
 </div>

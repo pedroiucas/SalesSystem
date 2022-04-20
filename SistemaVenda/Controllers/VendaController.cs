@@ -55,11 +55,22 @@ namespace SistemaVenda.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult Excluir(int id)
+        [HttpPost]
+        public IActionResult Deletar(int id)
         {
             ServicoAplicacaoVenda.Excluir(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Deletar(int? id)
+        {
+            var viewModel = ServicoAplicacaoVenda.CarregarRegistro(id is null ? 0 : (int)id);
+
+            viewModel.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList();
+            viewModel.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList();
+
+            return View(viewModel);
         }
 
         [HttpGet("LerValorProduto/{CodigoProduto}")]

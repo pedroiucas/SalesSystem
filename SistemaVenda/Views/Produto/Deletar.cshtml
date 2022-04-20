@@ -6,12 +6,12 @@
 <h2>Produto</h2>
 <hr />
 
-<form asp-controller="Produto" asp-action="Cadastro" method="post">
+<form asp-controller="Produto" asp-action="Deletar" method="post">
     <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
     <div class="form-group">
         <div class="col-4">
             <label>Descricao</label>
-            <input type="text" asp-for="Descricao" value="@Model.Descricao" class="form-control" />
+            <input type="text" asp-for="Descricao" value="@Model.Descricao" disabled class="form-control" />
             <span asp-validation-for="Descricao" class="text-danger"></span>
         </div>
 
@@ -19,7 +19,7 @@
     <div class="form-group">
         <div class="col-4">
             <label>Quantidade</label>
-            <input type="number" asp-for="Quantidade" value="@Model.Quantidade" class="form-control" />
+            <input type="number" asp-for="Quantidade" value="@Model.Quantidade" disabled class="form-control" />
             <span asp-validation-for="Quantidade" class="text-danger"></span>
         </div>
 
@@ -27,7 +27,7 @@
     <div class="form-group">
         <div class="col-4">
             <label>Valor</label>
-            <input type="text" asp-for="Valor" value="@Model.Valor" class="form-control" />
+            <input type="text" asp-for="Valor" value="@Model.Valor" disabled class="form-control" />
             <span asp-validation-for="Valor" class="text-danger"></span>
         </div>
 
@@ -35,12 +35,12 @@
     <div class="form-group">
         <div class="col-4">
             <label>Categoria</label>
-            <select asp-for="CodigoCategoria" class="form-control input-group-lg" asp-items="@Model.ListaCategorias"></select>
+            <select asp-for="CodigoCategoria" class="form-control input-group-lg" disabled asp-items="@Model.ListaCategorias"></select>
             <span asp-validation-for="CodigoCategoria" class="text-danger"></span>
         </div>
     </div>
     <br />
     <div class="col">
-        <button type="submit" class="btn btn-success">Gravar</button>
+        <button type="submit" class="btn btn-success">Deletar</button>
     </div>
 </form>

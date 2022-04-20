@@ -49,9 +49,17 @@ namespace SistemaVenda.Controllers
 
             return RedirectToAction("Index");
         }
-
         [HttpGet]
-        public IActionResult Excluir(int id)
+        public IActionResult Deletar(int? id)
+        {
+            var viewModel = ServicoAplicacaoProduto.CarregarRegistro(id is null ? 0 : (int)id);
+            viewModel.ListaCategorias = ServicoAplicacaoCategoria.ListagemSelectList();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Deletar(int id)
         {
             ServicoAplicacaoProduto.Excluir(id);
             return RedirectToAction("Index");

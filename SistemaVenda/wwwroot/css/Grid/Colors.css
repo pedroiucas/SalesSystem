@@ -1,0 +1,63 @@
+﻿d-block d-lg-inline-flex me-0 me-md-3 {
+    float: right;
+}
+
+.d-lg-inline-flex {
+    right: 7px !important;
+    position: relative;
+}
+
+.dataTables_wrapper.dt-bootstrap .dt-buttons .btn, .dataTables_wrapper.dt-bootstrap4 .dt-buttons .btn {
+    padding: 9px 13px;
+    margin: initial;
+    border-color: var(--white);
+    background-color: var( --dark-blue);
+    color: var( --white);
+    margin-left: 7px;
+    border-radius: 4px !important;
+    font-size: 13px;
+}
+
+    .dataTables_wrapper.dt-bootstrap .dt-buttons .btn:hover, .dataTables_wrapper.dt-bootstrap4 .dt-buttons .btn:hover {
+        color: var(--orange);
+        border-color: var(--orange);
+        background: var(--white);
+    }
+
+.dataTables_wrapper.dt-bootstrap .dataTables_paginate .pagination .paginate_button.active a, .dataTables_wrapper.dt-bootstrap4 .dataTables_paginate .pagination .paginate_button.active a {
+    border-color: var(--dark-blue);
+    background: var(--dark-blue);
+    color: var(--white);
+}
+
+.dataTables_wrapper.dt-bootstrap .dataTables_info, .dataTables_wrapper.dt-bootstrap4 .dataTables_info {
+    font-weight: 800;
+    color: var(--dark-blue);
+}
+
+.dataTables_wrapper.dt-bootstrap .dataTables_filter label, .dataTables_wrapper.dt-bootstrap .dataTables_length label, .dataTables_wrapper.dt-bootstrap4 .dataTables_filter label, .dataTables_wrapper.dt-bootstrap4 .dataTables_length label {
+    color: var(--dark-blue);
+    font-weight: 800;
+}
+
+.combobox-container .input-group .typeahead.dropdown-menu > li > a:focus, .combobox-container .input-group .typeahead.dropdown-menu > li > a:hover, .dataTables_wrapper.dt-bootstrap .dataTables_paginate .pagination .paginate_button a:focus, .dataTables_wrapper.dt-bootstrap .dataTables_paginate .pagination .paginate_button a:hover, .dataTables_wrapper.dt-bootstrap4 .dataTables_paginate .pagination .paginate_button a:focus, .dataTables_wrapper.dt-bootstrap4 .dataTables_paginate .pagination .paginate_button a {
+    color: var(--dark-blue);
+    background: var(--white);
+}
+
+    .combobox-container .input-group .typeahead.dropdown-menu > li > a:focus, .combobox-container .input-group .typeahead.dropdown-menu > li > a:hover, .dataTables_wrapper.dt-bootstrap .dataTables_paginate .pagination .paginate_button a:focus, .dataTables_wrapper.dt-bootstrap .dataTables_paginate .pagination .paginate_button a:hover, .dataTables_wrapper.dt-bootstrap4 .dataTables_paginate .pagination .paginate_button a:focus, .dataTables_wrapper.dt-bootstrap4 .dataTables_paginate .pagination .paginate_button a:hover {
+        color: var(--orange);
+        border-color: var(--orange);
+    }
+
+table.dataTable > thead > tr > th:not(.sorting_disabled), table.dataTable > thead > tr > td:not(.sorting_disabled) {
+    color: var(--dark-blue);
+}
+
+body table.dataTable thead tr th.sorting:after {
+    color: var(--orange);
+}
+
+.custom-select {
+    background: none;
+}

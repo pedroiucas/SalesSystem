@@ -1,0 +1,77 @@
+#erroGeral {
+    position: relative;
+    height: 100vh;
+}
+
+    #erroGeral .erroGeral {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+.erroGeral {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    line-height: 1.4;
+}
+
+    .erroGeral .erroGeral-dentro {
+        height: 190px;
+    }
+
+        /*Para organizar o tamanho da fonte sem alterar o padrão do sistema foi feito esses estilos de tag.*/
+        .erroGeral .erroGeral-dentro h1 {
+            font-size: 146px;
+            font-weight: 700;
+            margin: 0px;
+            color: #232323;
+        }
+
+            .erroGeral .erroGeral-dentro h1 > span {
+                display: inline-block;
+                width: 7rem;
+                height: 7rem;
+                background-image: url('../images/Selo.png');
+                background-size: cover;
+                -webkit-transform: scale(1.4);
+                -ms-transform: scale(1.4);
+                transform: scale(1.4);
+                z-index: -1;
+            }
+
+    .erroGeral h2 {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0;
+        text-transform: uppercase;
+        color: #232323;
+    }
+
+    .erroGeral p {
+        margin: 50px 50px;
+    }
+
+#segundoNumero {
+    left: 0.3rem;
+    position: relative;
+}
+
+/*Responsividade para telas com alrgura máx de 767.*/
+@media only screen and (max-width: 767px) {
+    .erroGeral .erroGeral-dentro {
+        height: 115px;
+    }
+
+        .erroGeral .erroGeral-dentro h1 {
+            font-size: 86px;
+        }
+
+            .erroGeral .erroGeral-dentro h1 > span {
+                width: 86px;
+                height: 86px;
+            }
+}

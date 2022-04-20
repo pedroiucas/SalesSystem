@@ -3,16 +3,15 @@
 @{
     ViewData["Title"] = "Cliente";
 }
-
 <h2>Cliente</h2>
 <hr />
 
-<form asp-controller="Cliente" asp-action="Cadastro" method="post">
+<form asp-controller="Cliente" asp-action="Deletar" method="post">
     <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
     <div class="form-group">
         <div class="col-4">
             <label>Nome</label>
-            <input type="text" asp-for="Nome" value="@Model.Nome" class="form-control" />
+            <input type="text" asp-for="Nome" value="@Model.Nome" disabled class="form-control" />
             <span asp-validation-for="Nome" class="text-danger"></span>
         </div>
 
@@ -20,7 +19,7 @@
     <div class="form-group">
         <div class="col-4">
             <label>CNPJ/CPF</label>
-            <input type="text" asp-for="CNPJ_CPF" value="@Model.CNPJ_CPF" class="form-control" />
+            <input type="text" asp-for="CNPJ_CPF" value="@Model.CNPJ_CPF" disabled class="form-control" />
             <span asp-validation-for="CNPJ_CPF" class="text-danger"></span>
         </div>
 
@@ -28,7 +27,7 @@
     <div class="form-group">
         <div class="col-4">
             <label>Email</label>
-            <input type="text" asp-for="Email" value="@Model.Email" class="form-control" />
+            <input type="text" asp-for="Email" value="@Model.Email" disabled class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
@@ -36,12 +35,12 @@
     <div class="form-group">
         <div class="col-4">
             <label>Celular</label>
-            <input type="text" asp-for="Celular" value="@Model.Celular" class="form-control" />
+            <input type="text" asp-for="Celular" value="@Model.Celular" disabled class="form-control" />
             <span asp-validation-for="Celular" class="text-danger"></span>
         </div>
     </div>
     <br />
     <div class="col">
-        <button type="submit" class="btn btn-success">Gravar</button>
+        <button type="submit" class="btn btn-danger">Deletar</button>
     </div>
 </form>

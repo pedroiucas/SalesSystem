@@ -26,7 +26,7 @@ namespace SistemaVenda.Controllers
         [HttpGet]
         public IActionResult Cadastro(int? id)
         {
-            CategoriaViewModel viewModel = ServicoAplicacaoCategoria.CarregarRegistro((int)id);
+            CategoriaViewModel viewModel = ServicoAplicacaoCategoria.CarregarRegistro(id is null? 0 :(int)id);
             return View(viewModel);
         }
 
@@ -46,7 +46,14 @@ namespace SistemaVenda.Controllers
         }
 
         [HttpGet]
-        public IActionResult Excluir(int id)
+        public IActionResult Deletar(int? id)
+        {
+            CategoriaViewModel viewModel = ServicoAplicacaoCategoria.CarregarRegistro(id is null ? 0 : (int)id);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Deletar(int id)
         {
             ServicoAplicacaoCategoria.Excluir(id);
             return RedirectToAction("Index");

@@ -51,6 +51,7 @@ namespace SistemaVenda.Controllers
                 else
                 {
                     httpContext.HttpContext.Session.SetString(Sessao.NomeUsuario, usuario.Nome);
+                    httpContext.HttpContext.Session.SetString(Sessao.PrimeiroNome, usuario.Nome.Split(' ')[0]);
                     httpContext.HttpContext.Session.SetString(Sessao.EmailUsuario, usuario.Email);
                     httpContext.HttpContext.Session.SetInt32(Sessao.CodigoUsuario, (int)usuario.Codigo);
                     httpContext.HttpContext.Session.SetInt32(Sessao.Logado, 1);

@@ -4,6 +4,7 @@
     {
         public static string NomeUsuario = "NomeUsuario";
         public static string EmailUsuario = "EmailUsuario";
+        public static string PrimeiroNome = "PrimeiroNome";
         public static string CodigoUsuario = "CodigoUsuario";
         public static string Logado = "Logado";
     }
