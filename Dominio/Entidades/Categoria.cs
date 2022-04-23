@@ -12,5 +12,8 @@ namespace SistemaVenda.Dominio.Entidades
     {
         public string Descricao { get; set; }
         public ICollection<Produto> Produtos { get; set; }
+        public Usuario Usuario { get; set; }
+        [ForeignKey("Usuario")]
+        public int? CodigoUsuario { get; set; }
     }
 }

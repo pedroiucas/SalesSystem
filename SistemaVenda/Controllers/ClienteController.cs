@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using SistemaVenda.Helpers;
 
 namespace SistemaVenda.Controllers
 {
@@ -20,7 +22,7 @@ namespace SistemaVenda.Controllers
 
         public IActionResult Index()
         {
-            return View(ServicoAplicacaoCliente.Listagem());
+            return View(ServicoAplicacaoCliente.Listagem((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario)));
         }
 
         [HttpGet]
@@ -35,6 +37,7 @@ namespace SistemaVenda.Controllers
         {
             if (ModelState.IsValid)
             {
+                entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
                 ServicoAplicacaoCliente.Cadastrar(entidade);
             }
             else

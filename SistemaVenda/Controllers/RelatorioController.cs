@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using SistemaVenda.Helpers;
 
 namespace SistemaVenda.Controllers
 {
@@ -18,7 +20,7 @@ namespace SistemaVenda.Controllers
 
         public IActionResult Grafico()
         {
-            var lista = servicoVenda.ListaGrafico().ToList();
+            var lista = servicoVenda.ListaGrafico((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario)).ToList();
 
             string Valores = string.Empty;
             string Labels = string.Empty;

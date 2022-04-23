@@ -8,6 +8,7 @@ namespace Dominio.Repositorio
 {
     public interface IRepositorioVendaProdutos 
     {
-        IEnumerable<GraficoViewModel> ListaGrafico();
+        IEnumerable<GraficoViewModel> ListaGrafico(int CodigoUsuario);
+        IEnumerable<VendaProdutos> CarregarProdutos(int CodigoVenda);
     }
 }

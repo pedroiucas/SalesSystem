@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Aplicacao.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,10 +17,12 @@ namespace SistemaVenda.Models
 
         [Required(ErrorMessage = "Informe o Cliente!")]
         public int? CodigoCliente { get; set; }
-
+        public string NomeCliente { get; set; }
         public IEnumerable<SelectListItem> ListaClientes { get; set; }
         public IEnumerable<SelectListItem> ListaProdutos { get; set; }
+        public List<VendaProdutoViewModel> VendaProduto { get; set; }
         public string JsonProdutos { get; set; }
         public decimal? Total { get; set; }
+        public int? CodigoUsuario { get; set; }
     }
 }

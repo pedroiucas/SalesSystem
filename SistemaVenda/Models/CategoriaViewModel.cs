@@ -12,5 +12,6 @@ namespace SistemaVenda.Models
 
         [Required(ErrorMessage = "Informe a descrição da categoria!")]
         public string Descricao { get; set; }
+        public int? CodigoUsuario { get; set; }
     }
 }

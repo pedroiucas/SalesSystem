@@ -1,30 +1,40 @@
-﻿using Aplicacao.Servico.Interfaces;
+﻿using Aplicacao.Models;
+using Aplicacao.Servico.Interfaces;
 using Dominio.Interfaces;
+using Dominio.Repositorio;
 using Newtonsoft.Json;
 using SistemaVenda.Dominio.Entidades;
 using SistemaVenda.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aplicacao.Servico
 {
     public class ServicoAplicacaoVenda : IServicoAplicacaoVenda
     {
         private IServicoVenda ServicoVenda;
-
-        public ServicoAplicacaoVenda(IServicoVenda ServicoVenda)
+        private IServicoCliente ServicoCliente;
+        private IServicoProduto ServicoProduto;
+        private IRepositorioVendaProdutos RepositorioVendaProdutos;
+        public ServicoAplicacaoVenda(IServicoVenda ServicoVenda, IServicoCliente ServicoCliente, IRepositorioVendaProdutos RepositorioVendaProdutos, IServicoProduto ServicoProduto)
         {
             this.ServicoVenda = ServicoVenda;
+            this.ServicoCliente = ServicoCliente;
+            this.RepositorioVendaProdutos = RepositorioVendaProdutos;
+            this.ServicoProduto = ServicoProduto;
         }
 
         public void Cadastrar(VendaViewModel Venda)
         {
             Venda VendaEnti = new Venda()
             {
+                Codigo = Venda.Codigo,
                 CodigoCliente = (int)Venda.CodigoCliente,
                 Data = (DateTime)Venda.Data,
-                Total = (decimal)Venda.Total,
+                Total = decimal.Parse(Venda.Total.ToString().Substring(0, Venda.Total.ToString().Length - 2)),
                 Produtos = JsonConvert.DeserializeObject<ICollection<VendaProdutos>>(Venda.JsonProdutos),
+                CodigoUsuario = Venda.CodigoUsuario
             };
 
             ServicoVenda.Cadastrar(VendaEnti);
@@ -41,22 +51,55 @@ namespace Aplicacao.Servico
             {
                 return new VendaViewModel();
             }
-            var registro = ServicoVenda.CarregarRegistro(codigo);
+            var venda = ServicoVenda.CarregarRegistro(codigo);
+            var vendaProduto = RepositorioVendaProdutos.CarregarProdutos((int)venda.Codigo);
+            
+            List<VendaProdutoViewModel> produtos = new List<VendaProdutoViewModel>();
 
-            VendaViewModel Venda = new VendaViewModel()
+            foreach (var item in vendaProduto)
             {
-                Codigo = registro.Codigo,
-                CodigoCliente = (int)registro.CodigoCliente,
-                Data = (DateTime)registro.Data,
-                Total = (decimal)registro.Total,
+                var produto = ServicoProduto.CarregarRegistro(item.CodigoProduto);
+
+                VendaProdutoViewModel vendaP = new VendaProdutoViewModel()
+                {
+                    CodigoProduto = item.CodigoProduto,
+                    CodigoVenda = item.CodigoVenda,
+                    Quantidade = item.Quantidade,
+                    ValorTotal = item.ValorTotal,
+                    ValorUnitario = item.ValorUnitario,
+                    Venda = new VendaViewModel()
+                    {
+                        Codigo = venda.Codigo,
+                        Total = venda.Total,
+                    },
+                    Produto = new ProdutoViewModel()
+                    {
+                        Codigo = produto.Codigo,
+                        CodigoCategoria = produto.CodigoCategoria,
+                        CodigoUsuario = produto.CodigoUsuario,
+                        Descricao = produto.Descricao,
+                        Valor = produto.Valor,
+                    },
+                };
+
+                produtos.Add(vendaP);
+            }
+
+            VendaViewModel vendaView = new VendaViewModel()
+            {
+                Codigo = venda.Codigo,
+                CodigoCliente = (int)venda.CodigoCliente,
+                Data = (DateTime)venda.Data,
+                Total = (decimal)venda.Total,
+                VendaProduto = produtos
             };
            
-            return Venda;
+            return vendaView;
         }
 
-        public IEnumerable<VendaViewModel> Listagem()
+        public IEnumerable<VendaViewModel> Listagem(int CodigoUsuario)
         {
-            var lista = ServicoVenda.Listagem();
+            var lista = ServicoVenda.Listagem().Where(e =>  e.CodigoUsuario == CodigoUsuario);
             List<VendaViewModel> listaVenda = new List<VendaViewModel>();
             foreach (var item in lista)
             {
@@ -66,6 +109,7 @@ namespace Aplicacao.Servico
                     CodigoCliente = (int)item.CodigoCliente,
                     Data = (DateTime)item.Data,
                     Total = (decimal)item.Total,
+                    NomeCliente = ServicoCliente.CarregarRegistro((int)item.CodigoCliente).Nome
                 };
 
                 listaVenda.Add(Venda);
@@ -74,11 +118,11 @@ namespace Aplicacao.Servico
             return listaVenda;
         }
 
-        public IEnumerable<GraficoViewModel> ListaGrafico()
+        public IEnumerable<GraficoViewModel> ListaGrafico(int CodigoUsuario)
         {
             List<GraficoViewModel> lista = new List<GraficoViewModel>();
 
-            foreach (var item in ServicoVenda.ListaGrafico())
+            foreach (var item in ServicoVenda.ListaGrafico(CodigoUsuario))
             {
                 GraficoViewModel grafico = new GraficoViewModel()
                 {

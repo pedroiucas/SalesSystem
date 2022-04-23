@@ -18,9 +18,14 @@ namespace Repositorio.Entidades
             DbSetContext = mContext;
         }
 
-        public IEnumerable<GraficoViewModel> ListaGrafico()
+        public IEnumerable<VendaProdutos> CarregarProdutos(int CodigoVenda)
         {
-            var lista = DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto)
+            return DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto).Where(e => e.Venda.Codigo == CodigoVenda);
+        }
+
+        public IEnumerable<GraficoViewModel> ListaGrafico(int CodigoUsuario)
+        {
+            var lista = DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto).Where(e => e.Produto.CodigoUsuario == CodigoUsuario)
                .Select(y => new GraficoViewModel
                {
                    CodigoProduto = y.CodigoProduto,

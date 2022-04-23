@@ -54,10 +54,13 @@
                                     @item.Codigo
                                 </td>
                                 <td>
-                                    @item.Data
+                                    @{
+                                        var data = (DateTime)item.Data;
+                                        @:@data.ToString("dd/MM/yyyy")
+                                    }
                                 </td>
                                 <td>
-                                    @item.CodigoCliente
+                                    @item.NomeCliente
                                 </td>
                                 <td>
                                     @item.Total

@@ -1,9 +1,12 @@
 ﻿using Aplicacao.Servico.Interfaces;
 using Dominio.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaVenda.Dominio.Entidades;
+using SistemaVenda.Helpers;
 using SistemaVenda.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aplicacao.Servico
 {
@@ -22,6 +25,7 @@ namespace Aplicacao.Servico
             {
                 Codigo = categoria.Codigo,
                 Descricao = categoria.Descricao,
+                CodigoUsuario = categoria.CodigoUsuario
             };
             ServicoCategoria.Cadastrar(categoriaEnti);
         }
@@ -48,9 +52,9 @@ namespace Aplicacao.Servico
             return categoria;
         }
 
-        public IEnumerable<CategoriaViewModel> Listagem()
+        public IEnumerable<CategoriaViewModel> Listagem(int CodigoUsuario)
         {
-            var lista = ServicoCategoria.Listagem();
+            var lista = ServicoCategoria.Listagem().Where(e => e.CodigoUsuario == CodigoUsuario);
             List<CategoriaViewModel> listaCategoria = new List<CategoriaViewModel>();
             foreach (var item in lista)
             {
@@ -66,10 +70,11 @@ namespace Aplicacao.Servico
             return listaCategoria;
         }
 
-        public IEnumerable<SelectListItem> ListagemSelectList()
+        public IEnumerable<SelectListItem> ListagemSelectList(int CodigoUsuario)
         {
             List<SelectListItem> listaSelect = new List<SelectListItem>();
-            var listaCategorias = Listagem();
+            var listaCategorias = Listagem(CodigoUsuario);
+            listaSelect.Add(new SelectListItem() { Value = "0", Text = "Selecione" });
 
             foreach (var item in listaCategorias)
             {

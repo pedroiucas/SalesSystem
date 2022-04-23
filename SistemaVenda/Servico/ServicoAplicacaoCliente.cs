@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaVenda.Dominio.Entidades;
 using SistemaVenda.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aplicacao.Servico
 {
@@ -25,6 +26,7 @@ namespace Aplicacao.Servico
                 CNPJ_CPF = cliente.CNPJ_CPF,
                 Celular = cliente.Celular,
                 Email = cliente.Email,
+                CodigoUsuario = cliente.CodigoUsuario
             };
 
             ServicoCliente.Cadastrar(clienteEnti);
@@ -55,9 +57,9 @@ namespace Aplicacao.Servico
             return cliente;
         }
 
-        public IEnumerable<ClienteViewModel> Listagem()
+        public IEnumerable<ClienteViewModel> Listagem(int CodigoUsuario)
         {
-            var lista = ServicoCliente.Listagem();
+            var lista = ServicoCliente.Listagem().Where(e => e.CodigoUsuario == CodigoUsuario);
             List<ClienteViewModel> listaCliente = new List<ClienteViewModel>();
             foreach (var item in lista)
             {
@@ -76,10 +78,11 @@ namespace Aplicacao.Servico
             return listaCliente;
         }
 
-        public IEnumerable<SelectListItem> ListagemSelectList()
+        public IEnumerable<SelectListItem> ListagemSelectList(int CodigoUsuario)
         {
             List<SelectListItem> listaSelect = new List<SelectListItem>();
-            var listaCategorias = Listagem();
+            var listaCategorias = Listagem(CodigoUsuario);
+            listaSelect.Add(new SelectListItem() { Value = "0", Text = "Selecione"});
 
             foreach (var item in listaCategorias)
             {

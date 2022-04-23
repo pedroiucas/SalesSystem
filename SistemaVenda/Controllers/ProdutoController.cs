@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using SistemaVenda.Helpers;
 
 namespace SistemaVenda.Controllers
 {
@@ -22,14 +24,14 @@ namespace SistemaVenda.Controllers
 
         public IActionResult Index()
         {
-            return View(ServicoAplicacaoProduto.Listagem());
+            return View(ServicoAplicacaoProduto.Listagem((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario)));
         }
 
         [HttpGet]
         public IActionResult Cadastro(int? id)
         {
             var viewModel = ServicoAplicacaoProduto.CarregarRegistro(id is null? 0: (int)id);
-            viewModel.ListaCategorias = ServicoAplicacaoCategoria.ListagemSelectList();
+            viewModel.ListaCategorias = ServicoAplicacaoCategoria.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
 
             return View(viewModel);
         }
@@ -39,11 +41,12 @@ namespace SistemaVenda.Controllers
         {
             if (ModelState.IsValid)
             {
+                entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
                 ServicoAplicacaoProduto.Cadastrar(entidade);
             }
             else
             {
-                entidade.ListaCategorias = ServicoAplicacaoCategoria.ListagemSelectList();
+                entidade.ListaCategorias = ServicoAplicacaoCategoria.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
                 return View(entidade);
             }
 
@@ -53,7 +56,7 @@ namespace SistemaVenda.Controllers
         public IActionResult Deletar(int? id)
         {
             var viewModel = ServicoAplicacaoProduto.CarregarRegistro(id is null ? 0 : (int)id);
-            viewModel.ListaCategorias = ServicoAplicacaoCategoria.ListagemSelectList();
+            viewModel.ListaCategorias = ServicoAplicacaoCategoria.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
 
             return View(viewModel);
         }

@@ -18,5 +18,7 @@ namespace SistemaVenda.Dominio.Entidades
         public Cliente Cliente { get; set; }
         public decimal Total { get; set; }
         public ICollection<VendaProdutos> Produtos { get; set; }
+        [ForeignKey("Usuario")]
+        public int? CodigoUsuario { get; set; }
     }
 }

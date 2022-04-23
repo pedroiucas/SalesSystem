@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SistemaVenda.Dominio.Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;

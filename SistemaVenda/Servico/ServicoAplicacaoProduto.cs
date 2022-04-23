@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaVenda.Dominio.Entidades;
 using SistemaVenda.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aplicacao.Servico
 {
@@ -24,7 +25,8 @@ namespace Aplicacao.Servico
                 Descricao = Produto.Descricao,
                 Quantidade = Produto.Quantidade,
                 Valor = (decimal)Produto.Valor,
-                CodigoCategoria = (int)Produto.CodigoCategoria
+                CodigoCategoria = (int)Produto.CodigoCategoria,
+                CodigoUsuario = Produto.CodigoUsuario
             };
 
             ServicoProduto.Cadastrar(ProdutoEnti);
@@ -50,14 +52,15 @@ namespace Aplicacao.Servico
                 Quantidade = registro.Quantidade,
                 Valor = registro.Valor,
                 CodigoCategoria = registro.CodigoCategoria,
+                CodigoUsuario = registro.CodigoUsuario
             };
            
             return Produto;
         }
 
-        public IEnumerable<ProdutoViewModel> Listagem()
+        public IEnumerable<ProdutoViewModel> Listagem(int CodigoUsuario)
         {
-            var lista = ServicoProduto.Listagem();
+            var lista = ServicoProduto.Listagem().Where(e => e.CodigoUsuario == CodigoUsuario);
             List<ProdutoViewModel> listaProduto = new List<ProdutoViewModel>();
             foreach (var item in lista)
             {
@@ -77,10 +80,11 @@ namespace Aplicacao.Servico
             return listaProduto;
         }
 
-        public IEnumerable<SelectListItem> ListagemSelectList()
+        public IEnumerable<SelectListItem> ListagemSelectList(int CodigoUsuario)
         {
             List<SelectListItem> listaSelect = new List<SelectListItem>();
-            var listaCategorias = Listagem();
+            var listaCategorias = Listagem(CodigoUsuario);
+            listaSelect.Add(new SelectListItem() { Value = "0", Text = "Selecione" });
 
             foreach (var item in listaCategorias)
             {

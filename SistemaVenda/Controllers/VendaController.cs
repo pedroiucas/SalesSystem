@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using SistemaVenda.Helpers;
 
 namespace SistemaVenda.Controllers
 {
@@ -24,7 +26,7 @@ namespace SistemaVenda.Controllers
 
         public IActionResult Index()
         {
-            return View(ServicoAplicacaoVenda.Listagem());
+            return View(ServicoAplicacaoVenda.Listagem((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario)));
         }
 
         [HttpGet]
@@ -32,8 +34,8 @@ namespace SistemaVenda.Controllers
         {
             var viewModel = ServicoAplicacaoVenda.CarregarRegistro(id is null ? 0 : (int)id);
 
-            viewModel.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList();
-            viewModel.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList();
+            viewModel.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
+            viewModel.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
 
             return View(viewModel);
         }
@@ -43,12 +45,13 @@ namespace SistemaVenda.Controllers
         {
             if (ModelState.IsValid)
             {
+                entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
                 ServicoAplicacaoVenda.Cadastrar(entidade);
             }
             else
             {
-                entidade.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList();
-                entidade.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList();
+                entidade.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
+                entidade.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
                 return View(entidade);
             }
 
@@ -67,16 +70,23 @@ namespace SistemaVenda.Controllers
         {
             var viewModel = ServicoAplicacaoVenda.CarregarRegistro(id is null ? 0 : (int)id);
 
-            viewModel.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList();
-            viewModel.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList();
+            viewModel.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
+            viewModel.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
 
             return View(viewModel);
         }
 
         [HttpGet("LerValorProduto/{CodigoProduto}")]
-        public decimal LerValorProduto(int CodigoProduto)
+        public decimal? LerValorProduto(int CodigoProduto)
         {
-            return (decimal)ServicoAplicacaoProduto.CarregarRegistro(CodigoProduto).Valor;
+            if (CodigoProduto != 0)
+            {
+                return (decimal)ServicoAplicacaoProduto.CarregarRegistro(CodigoProduto).Valor;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

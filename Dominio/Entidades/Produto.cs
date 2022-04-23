@@ -18,6 +18,9 @@ namespace SistemaVenda.Dominio.Entidades
         public int CodigoCategoria { get; set; }
 
         public Categoria Categoria { get; set; }
+        public Usuario Usuario { get; set; }
+        [ForeignKey("Usuario")]
+        public int? CodigoUsuario { get; set; }
         public ICollection<VendaProdutos> Vendas { get; set; }
     }
 }

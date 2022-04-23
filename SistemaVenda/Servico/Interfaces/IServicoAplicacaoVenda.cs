@@ -5,11 +5,11 @@ namespace Aplicacao.Servico.Interfaces
 {
     public interface IServicoAplicacaoVenda
     {
-        IEnumerable<VendaViewModel> Listagem();
+        IEnumerable<VendaViewModel> Listagem(int CodigoUsuario);
         VendaViewModel CarregarRegistro(int codigo);
         void Cadastrar(VendaViewModel Venda);
         void Excluir(int codigo);
 
-        IEnumerable<GraficoViewModel> ListaGrafico();
+        IEnumerable<GraficoViewModel> ListaGrafico(int CodigoUsuario);
     }
 }

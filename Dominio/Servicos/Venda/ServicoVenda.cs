@@ -38,9 +38,9 @@ namespace Dominio.Servicos.Venda
             return RepositorioVenda.Read();
         }
 
-        public IEnumerable<GraficoViewModel> ListaGrafico()
+        public IEnumerable<GraficoViewModel> ListaGrafico(int CodigoUsuario)
         {
-            return RepositorioVendaProdutos.ListaGrafico();
+            return RepositorioVendaProdutos.ListaGrafico(CodigoUsuario);
         }
     }
 }

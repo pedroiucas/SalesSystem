@@ -18,5 +18,6 @@ namespace SistemaVenda.Models
         public string Email { get; set; }
         [Required(ErrorMessage = "Informe o Celular do Cliente!")]
         public string Celular { get; set; }
+        public int? CodigoUsuario { get; set; }
     }
 }

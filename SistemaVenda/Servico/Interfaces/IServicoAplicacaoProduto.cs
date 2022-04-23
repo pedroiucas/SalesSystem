@@ -6,10 +6,10 @@ namespace Aplicacao.Servico.Interfaces
 {
     public interface IServicoAplicacaoProduto
     {
-        IEnumerable<ProdutoViewModel> Listagem();
+        IEnumerable<ProdutoViewModel> Listagem(int CodigoUsuario);
         ProdutoViewModel CarregarRegistro(int codigo);
         void Cadastrar(ProdutoViewModel produto);
         void Excluir(int codigo);
-        IEnumerable<SelectListItem> ListagemSelectList();
+        IEnumerable<SelectListItem> ListagemSelectList(int CodigoUsuario);
     }
 }
