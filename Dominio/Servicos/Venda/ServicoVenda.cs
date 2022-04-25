@@ -38,9 +38,17 @@ namespace Dominio.Servicos.Venda
             return RepositorioVenda.Read();
         }
 
-        public IEnumerable<GraficoViewModel> ListaGrafico(int CodigoUsuario)
+        public IEnumerable<GraficoViewModel> ListaTotalVendasPorProduto(int CodigoUsuario)
         {
-            return RepositorioVendaProdutos.ListaGrafico(CodigoUsuario);
+            return RepositorioVendaProdutos.ListaTotalVendasPorProduto(CodigoUsuario);
+        }
+        public IEnumerable<GraficoViewModel> ListaTotalVendasPorCategoria(int CodigoUsuario)
+        {
+            return RepositorioVendaProdutos.ListaTotalVendasPorCategoria(CodigoUsuario);
+        }
+        public IEnumerable<GraficoViewModel> ListaTotalVendasPorCliente(int CodigoUsuario)
+        {
+            return RepositorioVendaProdutos.ListaTotalVendasPorCliente(CodigoUsuario);
         }
     }
 }

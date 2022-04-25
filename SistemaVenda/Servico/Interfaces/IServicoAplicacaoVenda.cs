@@ -10,6 +10,8 @@ namespace Aplicacao.Servico.Interfaces
         void Cadastrar(VendaViewModel Venda);
         void Excluir(int codigo);
 
-        IEnumerable<GraficoViewModel> ListaGrafico(int CodigoUsuario);
+        IEnumerable<GraficoViewModel> ListaTotalVendasPorProduto(int CodigoUsuario);
+        IEnumerable<GraficoViewModel> ListaTotalVendasPorCategoria(int CodigoUsuario);
+        IEnumerable<GraficoViewModel> ListaTotalVendasPorCliente(int CodigoUsuario);
     }
 }

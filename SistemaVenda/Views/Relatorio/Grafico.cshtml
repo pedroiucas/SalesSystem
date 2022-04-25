@@ -1,23 +1,73 @@
 ﻿@{
     ViewData["Title"] = "Gráfico";
 }
+<br />
+<br />
 
-<h2>Total de Vendas por Produto</h2>
-<hr />
-
-<canvas id="myChart" width="100" height="100"></canvas>
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <h4 class="panel-title">Relatórios</h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-12 row">
+            <div class="col-md-12">
+                <h2>Total de Vendas por Produto</h2>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorProduto"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorProduto2"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorProduto3"></canvas>
+            </div>
+        </div>
+        <div class="col-md-12 row">
+            <div class="col-md-12">
+                <h2>Total de Vendas por Categoria</h2>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCategoria"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCategoria2"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCategoria3"></canvas>
+            </div>
+        </div>
+                <div class="col-md-12 row">
+            <div class="col-md-12">
+                <h2>Total de Vendas por Cliente</h2>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCliente"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCliente2"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCliente3"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+    var ctxProduto = document.getElementById('vendasPorProduto').getContext('2d');
+    var ctxProduto2 = document.getElementById('vendasPorProduto2').getContext('2d');
+    var ctxProduto3 = document.getElementById('vendasPorProduto3').getContext('2d');
+
+    var myChartProduto = new Chart(ctxProduto, {
         type: 'pie',
         data: {
-            labels: [@Html.Raw(ViewBag.Labels)],
+            labels: [@Html.Raw(ViewBag.LabelsProduto)],
             datasets: [{
-                data: [@Html.Raw(ViewBag.Valores)],
+                data: [@Html.Raw(ViewBag.ValoresProduto)],
                 backgroundColor: [
-                   @Html.Raw(ViewBag.Cores)
+                   @Html.Raw(ViewBag.CoresProduto)
                 ],
                 borderColor: [
                     '#fff'
@@ -26,4 +76,149 @@
         },
         options: {}
     });
+
+    var myChartProduto2 = new Chart(ctxProduto2, {
+        type: 'polarArea',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsProduto)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresProduto)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresProduto)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartProduto3 = new Chart(ctxProduto3, {
+        type: 'doughnut',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsProduto)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresProduto)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresProduto)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var ctxCategoria = document.getElementById('vendasPorCategoria').getContext('2d');
+    var ctxCategoria2 = document.getElementById('vendasPorCategoria2').getContext('2d');
+    var ctxCategoria3 = document.getElementById('vendasPorCategoria3').getContext('2d');
+
+    var myChartCategoria = new Chart(ctxCategoria, {
+        type: 'pie',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCategoria)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCategoria)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCategoria)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartCategoria2 = new Chart(ctxCategoria2, {
+        type: 'polarArea',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCategoria)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCategoria)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCategoria)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartCategoria3 = new Chart(ctxCategoria3, {
+        type: 'doughnut',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCategoria)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCategoria)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCategoria)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var ctxCliente = document.getElementById('vendasPorCliente').getContext('2d');
+    var ctxCliente2 = document.getElementById('vendasPorCliente2').getContext('2d');
+    var ctxCliente3 = document.getElementById('vendasPorCliente3').getContext('2d');
+
+    var myChartCliente = new Chart(ctxCliente, {
+        type: 'pie',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCliente)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCliente)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCliente)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartCliente2 = new Chart(ctxCliente2, {
+        type: 'polarArea',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCliente)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCliente)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCliente)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartCliente3 = new Chart(ctxCliente3, {
+        type: 'doughnut',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCliente)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCliente)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCliente)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
 </script>

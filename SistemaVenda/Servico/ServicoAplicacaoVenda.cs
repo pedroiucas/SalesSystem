@@ -118,15 +118,53 @@ namespace Aplicacao.Servico
             return listaVenda;
         }
 
-        public IEnumerable<GraficoViewModel> ListaGrafico(int CodigoUsuario)
+        public IEnumerable<GraficoViewModel> ListaTotalVendasPorProduto(int CodigoUsuario)
         {
             List<GraficoViewModel> lista = new List<GraficoViewModel>();
 
-            foreach (var item in ServicoVenda.ListaGrafico(CodigoUsuario))
+            foreach (var item in ServicoVenda.ListaTotalVendasPorProduto(CodigoUsuario))
             {
                 GraficoViewModel grafico = new GraficoViewModel()
                 {
                     CodigoProduto = item.CodigoProduto,
+                    Descricao = item.Descricao,
+                    TotalVendido = item.TotalVendido,
+                };
+
+                lista.Add(grafico);
+            }
+
+            return lista;
+        }
+
+        public IEnumerable<GraficoViewModel> ListaTotalVendasPorCategoria(int CodigoUsuario)
+        {
+            List<GraficoViewModel> lista = new List<GraficoViewModel>();
+
+            foreach (var item in ServicoVenda.ListaTotalVendasPorCategoria(CodigoUsuario))
+            {
+                GraficoViewModel grafico = new GraficoViewModel()
+                {
+                    CodigoCategoria = item.CodigoCategoria,
+                    Descricao = item.Descricao,
+                    TotalVendido = item.TotalVendido,
+                };
+
+                lista.Add(grafico);
+            }
+
+            return lista;
+        }
+
+        public IEnumerable<GraficoViewModel> ListaTotalVendasPorCliente(int CodigoUsuario)
+        {
+            List<GraficoViewModel> lista = new List<GraficoViewModel>();
+
+            foreach (var item in ServicoVenda.ListaTotalVendasPorCliente(CodigoUsuario))
+            {
+                GraficoViewModel grafico = new GraficoViewModel()
+                {
+                    CodigoCliente = item.CodigoCliente,
                     Descricao = item.Descricao,
                     TotalVendido = item.TotalVendido,
                 };
