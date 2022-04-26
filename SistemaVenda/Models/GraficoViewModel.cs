@@ -12,5 +12,6 @@ namespace SistemaVenda.Models
         public int CodigoCliente { get; set; }
         public string Descricao { get; set; }
         public double TotalVendido { get; set; }
+        public string ValorVendido { get; set; }
     }
 }

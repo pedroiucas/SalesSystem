@@ -41,7 +41,6 @@ namespace SistemaVenda.Controllers
                 var Senha = Criptografia.GerarMD5Hash(model.Senha);
 
                 bool validacao = servicoAplicacaoUsuario.ValidarLogin(model.Email, Senha);
-                var usuario = servicoAplicacaoUsuario.CarregarRegistro(model.Email, Senha);
 
                 if (!validacao)
                 {
@@ -50,6 +49,8 @@ namespace SistemaVenda.Controllers
                 }
                 else
                 {
+                    var usuario = servicoAplicacaoUsuario.CarregarRegistro(model.Email, Senha);
+
                     httpContext.HttpContext.Session.SetString(Sessao.NomeUsuario, usuario.Nome);
                     httpContext.HttpContext.Session.SetString(Sessao.PrimeiroNome, usuario.Nome.Split(' ')[0]);
                     httpContext.HttpContext.Session.SetString(Sessao.EmailUsuario, usuario.Email);

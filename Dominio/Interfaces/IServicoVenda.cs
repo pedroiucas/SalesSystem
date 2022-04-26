@@ -11,5 +11,8 @@ namespace Dominio.Interfaces
         IEnumerable<GraficoViewModel> ListaTotalVendasPorProduto(int CodigoUsuario);
         IEnumerable<GraficoViewModel> ListaTotalVendasPorCategoria(int CodigoUsuario);
         IEnumerable<GraficoViewModel> ListaTotalVendasPorCliente(int CodigoUsuario);
+        IEnumerable<GraficoViewModel> ListaTotalValorPorProduto(int CodigoUsuario);
+        IEnumerable<GraficoViewModel> ListaTotalValorPorCategoria(int CodigoUsuario);
+        IEnumerable<GraficoViewModel> ListaTotalValorPorCliente(int CodigoUsuario);
     }
 }

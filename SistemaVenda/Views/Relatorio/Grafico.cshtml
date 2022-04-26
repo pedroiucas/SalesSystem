@@ -23,6 +23,9 @@
                 <canvas id="vendasPorProduto3"></canvas>
             </div>
         </div>
+        <br />
+        <br />
+        <br />
         <div class="col-md-12 row">
             <div class="col-md-12">
                 <h2>Total de Vendas por Categoria</h2>
@@ -37,7 +40,10 @@
                 <canvas id="vendasPorCategoria3"></canvas>
             </div>
         </div>
-                <div class="col-md-12 row">
+        <br />
+        <br />
+        <br />
+         <div class="col-md-12 row">
             <div class="col-md-12">
                 <h2>Total de Vendas por Cliente</h2>
             </div>
@@ -49,6 +55,57 @@
             </div>
             <div class="col-md-4">
                 <canvas id="vendasPorCliente3"></canvas>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="col-md-12 row">
+            <div class="col-md-12">
+                <h2>Valor Total por Produto</h2>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorProdutoValor"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorProdutoValor2"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorProdutoValor3"></canvas>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="col-md-12 row">
+            <div class="col-md-12">
+                <h2>Valor Total de Vendas por Categoria</h2>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCategoriaValor"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCategoriaValor2"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorCategoriaValor3"></canvas>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="col-md-12 row">
+            <div class="col-md-12">
+                <h2>Valor Total de Vendas por Cliente</h2>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorClienteValor"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorClienteValor2"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="vendasPorClienteValor3"></canvas>
             </div>
         </div>
     </div>
@@ -212,6 +269,172 @@
                 data: [@Html.Raw(ViewBag.ValoresCliente)],
                 backgroundColor: [
                    @Html.Raw(ViewBag.CoresCliente)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+
+    var ctxProdutoValor = document.getElementById('vendasPorProdutoValor').getContext('2d');
+    var ctxProdutoValor2 = document.getElementById('vendasPorProdutoValor2').getContext('2d');
+    var ctxProdutoValor3 = document.getElementById('vendasPorProdutoValor3').getContext('2d');
+
+    var myChartProdutoValor = new Chart(ctxProdutoValor, {
+        type: 'pie',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsProdutoValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresProdutoValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresProdutoValor)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartProdutoValor2 = new Chart(ctxProdutoValor2, {
+        type: 'polarArea',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsProdutoValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresProdutoValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresProdutoValor)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartProdutoValor3 = new Chart(ctxProdutoValor3, {
+        type: 'doughnut',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsProdutoValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresProdutoValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresProdutoValor)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var ctxCategoriaValor = document.getElementById('vendasPorCategoriaValor').getContext('2d');
+    var ctxCategoriaValor2 = document.getElementById('vendasPorCategoriaValor2').getContext('2d');
+    var ctxCategoriaValor3 = document.getElementById('vendasPorCategoriaValor3').getContext('2d');
+
+    var myChartCategoriaValor = new Chart(ctxCategoriaValor, {
+        type: 'pie',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCategoriaValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCategoriaValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCategoriaValor)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartCategoriaValor2 = new Chart(ctxCategoriaValor2, {
+        type: 'polarArea',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCategoriaValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCategoriaValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCategoriaValor)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartCategoriaValor3 = new Chart(ctxCategoriaValor3, {
+        type: 'doughnut',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsCategoriaValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresCategoriaValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresCategoriaValor)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var ctxClienteValor = document.getElementById('vendasPorClienteValor').getContext('2d');
+    var ctxClienteValor2 = document.getElementById('vendasPorClienteValor2').getContext('2d');
+    var ctxClienteValor3 = document.getElementById('vendasPorClienteValor3').getContext('2d');
+
+    var myChartClienteValor = new Chart(ctxClienteValor, {
+        type: 'pie',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsClienteValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresClienteValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresClienteValor)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartClienteValor2 = new Chart(ctxClienteValor2, {
+        type: 'polarArea',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsClienteValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresClienteValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresClienteValor)
+                ],
+                borderColor: [
+                    '#fff'
+                ],
+            }]
+        },
+        options: {}
+    });
+
+    var myChartClienteValor3 = new Chart(ctxClienteValor3, {
+        type: 'doughnut',
+        data: {
+            labels: [@Html.Raw(ViewBag.LabelsClienteValor)],
+            datasets: [{
+                data: [@Html.Raw(ViewBag.ValoresClienteValor)],
+                backgroundColor: [
+                   @Html.Raw(ViewBag.CoresClienteValor)
                 ],
                 borderColor: [
                     '#fff'

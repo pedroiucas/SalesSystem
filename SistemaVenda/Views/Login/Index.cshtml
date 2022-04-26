@@ -1,38 +1,103 @@
 ﻿@model SistemaVenda.Models.LoginViewModel
 @{
     ViewData["Title"] = "Login";
-    Layout = null;
+    Layout = "_LayoutLogin";
 }
 
-<link href="~/css/Login.css" rel="stylesheet"/>
-<div class="wrapper fadeInDown">
-  <div id="formContent">
-
-    <!-- Icon -->
-    <div class="fadeIn first">
-        <div class="col-md-12">
-
-        </div>
-      <img src="~/img/logo.png" id="icon" alt="User Icon" />
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
     </div>
-
-    <!-- Login Form -->
-    <form asp-controller="Login" asp-action="Index" method="post">
-      <input asp-for="Email" type="text" id="Email" class="fadeIn second" name="Email" placeholder="Email">
-      <span asp-validation-for="Email" class="text-danger"></span>
-      <input asp-for="Senha" type="password" id="Senha" class="fadeIn third" name="Senha" placeholder="Senha">
-      <span asp-validation-for="Senha" class="text-danger"></span>
-      <br />
-      <input type="submit" class="fadeIn fourth" value="Entrar">
-      <br />
-
-      <span class="text-danger">@ViewData["Erro"]</span>
-    </form>
-
-    <!-- Remind Passowrd -->
-    <div id="formFooter">
-      <a class="underlineHover" href="#">Esqueceu a senha?</a>
-    </div>
-
-  </div>
+    <div class="pace-activity"></div>
 </div>
+
+<div id="page-loader" class="fade show d-none">
+    <span class="spinner"></span>
+</div>
+
+<div id="page-container" class="fade show">
+
+    <div class="login login-with-news-feed">
+
+        <div class="news-feed">
+            <div class="news-image" id="news-image" style="position: absolute;top: -50px !important;"></div>
+            <div class="news-caption">
+                <h4 class="caption-title">My <b>Stock</b></h4>
+            </div>
+        </div>
+
+        <div class="right-content">
+
+            <div style="position: relative; bottom: 3rem;" class="login-header">
+                <div class="brand">
+                    <span><img src="~/img/logo.png" class="responsive-img" style="max-height: 65px" /></span>
+                    <br />
+                    
+                    <small>
+                        <span>Bem vindo ao <b>MyStock</b></span>
+                    </small>
+                </div>
+            </div>
+            <form asp-controller="Login" asp-action="Index" method="post">
+                <div style=" position: relative; top: 3rem;" class="login-content">
+                    <div class="form-group m-b-15">
+                        <input type="text" class="form-control form-control-lg" asp-for="Email" type="text" id="Email" name="Email" placeholder="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend" style="cursor: pointer;">
+                        </div>
+                        <input type="text" class="form-control form-control-lg" placeholder="Senha" style="display: none;">
+                        <input data-toggle="password" data-placement="before" class="form-control form-control-lg" type="password"  asp-for="Senha" type="password" id="Senha" name="Senha" placeholder="Senha" style="">
+                        <span asp-validation-for="Senha" class="text-danger"></span>
+                        <span class="text-danger">@ViewData["Erro"]</span>
+                    </div>
+
+                    <div class="checkbox checkbox-css m-b-30">
+                        <input type="checkbox" id="remember_me_checkbox" value="">
+     @*                   <a onclick="EsqueciSenha()">
+                            Esqueci Minha Senha
+                        </a>*@
+                    </div>
+                    <div class="login-buttons">
+                        <button type="submit" class="btn btn-orange btn-block btn-lg">Entrar</button>
+                        <button type="Button" onclick="NovoUsuario()" class="btn btn-primary btn-block btn-lg">Novo Usuário</button>
+                    </div>
+                    <hr>
+                    <div class="row redimensiona-campos-login" style="text-align: center">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    function iniciarSlideImagens() {
+
+        var exibirImagens = function (current) {
+            let array = ["background.png", "background2.png", "background3.png"];
+
+            let transicao = document.getElementById("news-image");
+            transicao.style.transition = "all .7s ease-in-out 1s";
+            transicao.style.backgroundImage = "url(/img/" + array[current] + ")";
+
+            if (++current >= array.length) {
+                current = 0;
+            }
+
+            setTimeout(function () { exibirImagens(current); }, 5000);
+        };
+        exibirImagens(0);
+    }
+    window.onload = iniciarSlideImagens();
+
+    //function EsqueciSenha() {
+    //    window.location = window.origin + "\\Usuario\\EsqueciSenha";
+    //}
+
+    function NovoUsuario() {
+        window.location = window.origin + "\\Usuario\\Cadastro";
+    }
+</script>

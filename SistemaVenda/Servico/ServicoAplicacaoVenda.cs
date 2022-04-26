@@ -118,6 +118,63 @@ namespace Aplicacao.Servico
             return listaVenda;
         }
 
+        public IEnumerable<GraficoViewModel> ListaTotalValorPorProduto(int CodigoUsuario)
+        {
+            List<GraficoViewModel> lista = new List<GraficoViewModel>();
+
+            foreach (var item in ServicoVenda.ListaTotalValorPorProduto(CodigoUsuario))
+            {
+                GraficoViewModel grafico = new GraficoViewModel()
+                {
+                    CodigoProduto = item.CodigoProduto,
+                    Descricao = item.Descricao,
+                    ValorVendido = item.ValorVendido,
+                };
+
+                lista.Add(grafico);
+            }
+
+            return lista;
+        }
+
+        public IEnumerable<GraficoViewModel> ListaTotalValorPorCategoria(int CodigoUsuario)
+        {
+            List<GraficoViewModel> lista = new List<GraficoViewModel>();
+
+            foreach (var item in ServicoVenda.ListaTotalValorPorCategoria(CodigoUsuario))
+            {
+                GraficoViewModel grafico = new GraficoViewModel()
+                {
+                    CodigoProduto = item.CodigoProduto,
+                    Descricao = item.Descricao,
+                    ValorVendido = item.ValorVendido,
+                };
+
+                lista.Add(grafico);
+            }
+
+            return lista;
+        }
+
+        public IEnumerable<GraficoViewModel> ListaTotalValorPorCliente(int CodigoUsuario)
+        {
+            List<GraficoViewModel> lista = new List<GraficoViewModel>();
+
+            foreach (var item in ServicoVenda.ListaTotalValorPorCliente(CodigoUsuario))
+            {
+                GraficoViewModel grafico = new GraficoViewModel()
+                {
+                    CodigoProduto = item.CodigoProduto,
+                    Descricao = item.Descricao,
+                    ValorVendido = item.ValorVendido,
+                };
+
+                lista.Add(grafico);
+            }
+
+            return lista;
+        }
+
         public IEnumerable<GraficoViewModel> ListaTotalVendasPorProduto(int CodigoUsuario)
         {
             List<GraficoViewModel> lista = new List<GraficoViewModel>();
