@@ -44,7 +44,15 @@ namespace SistemaVenda.Controllers
                 {
                     entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
                     ServicoAplicacaoCategoria.Cadastrar(entidade);
-                    MensagemSucesso("Categoria cadastrada com sucesso.");
+
+                    if (entidade.Codigo != 0 && entidade.Codigo != null)
+                    {
+                        MensagemSucesso("Categoria editada com sucesso.");
+                    }
+                    else
+                    {
+                        MensagemSucesso("Categoria cadastrada com sucesso.");
+                    }
                 }
                 catch (MensagemErroException ex)
                 {

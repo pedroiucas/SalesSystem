@@ -51,7 +51,15 @@ namespace SistemaVenda.Controllers
                 {
                     entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
                     ServicoAplicacaoVenda.Cadastrar(entidade);
-                    MensagemSucesso("Venda cadastrada com sucesso.");
+
+                    if (entidade.Codigo != 0 && entidade.Codigo != null)
+                    {
+                        MensagemSucesso("Venda editada com sucesso.");
+                    }
+                    else
+                    {
+                        MensagemSucesso("Venda cadastrada com sucesso.");
+                    }
                 }
                 catch (MensagemErroException ex)
                 {
