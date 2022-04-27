@@ -2,9 +2,16 @@
 
 @{
     ViewData["Title"] = "Venda";
+    var data = string.Empty;
 
-    var disabled = (Model.Codigo == null) ? "disabled" : string.Empty;
+    if (Model.Data != null)
+    {
+        DateTime dt = (DateTime)Model.Data;
+        data = dt.ToString("dd/MM/yyyy");
+    }
 }
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
 <h2>Venda</h2>
 <hr />
@@ -18,7 +25,7 @@
                 <div class="form-group row">
                     <div class="col-6">
                         <label>Data</label>
-                        <input type="date" asp-for="Data" value="@Model.Data" class="form-control" />
+                        <input type="text" asp-for="Data" value="@data" class="form-control"  id="datepicker">
                         <span asp-validation-for="Data" class="text-danger"></span>
                     </div>
                     <div class="col-6">
@@ -114,6 +121,21 @@
     </div>
 </div>
 
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+        dateFormat: 'dd/mm/yy',
+        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+        dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+        nextText: 'Próximo',
+        prevText: 'Anterior'
+    });
+  } );
+  </script>
+
 <script>
     let Items = new Object();
     Items.Produtos = new Array();
@@ -130,7 +152,7 @@
             "ValorUnitario": ValorUnitario,
             "ValorTotal": SubTotal
         });
-        console.log(Items.Produtos);
+        
         document.getElementById("txtJsonProdutos").value = JSON.stringify(Items.Produtos);
     }
 
@@ -155,9 +177,11 @@
            Items.Produtos.push({
                 "CodigoProduto": CodigoProduto.value,
                 "Quantidade": Qtde,
-                "ValorUnitario": ValorUnitario,
-                "ValorTotal": SubTotal
+                "ValorUnitario": parseFloat(ValorUnitario),
+                "ValorTotal": parseFloat(SubTotal)
             });
+
+            console.log(Items.Produtos);
 
             document.getElementById("txtJsonProdutos").value = JSON.stringify(Items.Produtos);
 
@@ -170,7 +194,7 @@
                 </tr>`;
 
             gridProdutos.innerHTML += LinhaGrid;
-            debugger
+            
             let Total = Number(document.getElementById("txtTotal").value.toString().replace(",", ".")) + Number(SubTotal);
             document.getElementById("txtTotal").value = fixaDuasCasasDecimais(Total);
 

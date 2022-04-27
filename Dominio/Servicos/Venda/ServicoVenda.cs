@@ -22,6 +22,12 @@ namespace Dominio.Servicos.Venda
         public void Cadastrar(SistemaVenda.Dominio.Entidades.Venda Venda)
         {
             RepositorioVenda.Create(Venda);
+
+            foreach (var item in Venda.Produtos)
+            {
+                item.CodigoVenda = (int)Venda.Codigo;
+                RepositorioVendaProdutos.Create(item);
+            }
         }
 
         public SistemaVenda.Dominio.Entidades.Venda CarregarRegistro(int id)

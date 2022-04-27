@@ -13,6 +13,7 @@ namespace Repositorio.Entidades
     public class RepositorioVendaProdutos : IRepositorioVendaProdutos
     {
         protected ApplicationDbContext DbSetContext;
+
         public RepositorioVendaProdutos(ApplicationDbContext mContext)
         {
             DbSetContext = mContext;
@@ -20,7 +21,7 @@ namespace Repositorio.Entidades
 
         public IEnumerable<VendaProdutos> CarregarProdutos(int CodigoVenda)
         {
-            return DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto).Where(e => e.Venda.Codigo == CodigoVenda);
+            return DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto).Where(e => e.CodigoVenda == CodigoVenda);
         }
 
         public IEnumerable<VendaProdutos> CarregarVendaPorProduto(int codigo)
@@ -102,6 +103,22 @@ namespace Repositorio.Entidades
                }).Distinct().ToList();
 
             return lista;
+        }
+
+        public void Create(VendaProdutos Entidade)
+        {
+            var venda = DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto).Where(e => e.CodigoVenda == Entidade.CodigoVenda && e.CodigoProduto == Entidade.CodigoProduto);
+
+            if (venda.Count() < 1)
+            {
+                DbSetContext.Add(Entidade);
+            }
+            else
+            {
+                DbSetContext.Entry(Entidade).State = EntityState.Modified;
+            }
+
+            DbSetContext.SaveChanges();
         }
     }
 }
