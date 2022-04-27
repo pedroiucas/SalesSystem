@@ -1,4 +1,6 @@
-﻿using Aplicacao.Servico.Interfaces;
+﻿using Aplicacao.Controllers;
+using Aplicacao.Helpers;
+using Aplicacao.Servico.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SistemaVenda.Controllers
 {
-    public class CategoriaController : Controller
+    public class CategoriaController : MensagemController
     {
         private readonly IServicoAplicacaoCategoria ServicoAplicacaoCategoria;
 
@@ -38,11 +40,24 @@ namespace SistemaVenda.Controllers
         {
             if (ModelState.IsValid)
             {
-                entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
-                ServicoAplicacaoCategoria.Cadastrar(entidade);
+                try
+                {
+                    entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
+                    ServicoAplicacaoCategoria.Cadastrar(entidade);
+                    MensagemSucesso("Categoria cadastrada com sucesso.");
+                }
+                catch (MensagemErroException ex)
+                {
+                    MensagemErro(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MensagemErro("Erro ao cadastrar categoria.");
+                }
             }
             else
             {
+                MensagemErro("Necessário preencher todos os campos obrigatórios.");
                 return View(entidade);
             }
 
@@ -59,7 +74,20 @@ namespace SistemaVenda.Controllers
         [HttpPost]
         public IActionResult Deletar(int id)
         {
-            ServicoAplicacaoCategoria.Excluir(id);
+            try
+            {
+                ServicoAplicacaoCategoria.Excluir(id);
+                MensagemSucesso("Categoria deletada com sucesso.");
+            }
+            catch (MensagemErroException ex)
+            {
+                MensagemErro(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MensagemErro("Erro ao deletar categoria.");
+            }
+
             return RedirectToAction("Index");
         }
     }

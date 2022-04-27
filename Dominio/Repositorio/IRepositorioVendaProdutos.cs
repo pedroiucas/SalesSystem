@@ -15,5 +15,6 @@ namespace Dominio.Repositorio
         IEnumerable<GraficoViewModel> ListaTotalValorPorCategoria(int CodigoUsuario);
         IEnumerable<GraficoViewModel> ListaTotalValorPorCliente(int CodigoUsuario);
         IEnumerable<VendaProdutos> CarregarProdutos(int CodigoVenda);
+        IEnumerable<VendaProdutos> CarregarVendaPorProduto(int codigo);
     }
 }

@@ -8,10 +8,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using SistemaVenda.Helpers;
+using Aplicacao.Controllers;
+using Aplicacao.Helpers;
 
 namespace SistemaVenda.Controllers
 {
-    public class VendaController : Controller
+    public class VendaController : MensagemController
     {
         private readonly IServicoAplicacaoVenda ServicoAplicacaoVenda;
         private readonly IServicoAplicacaoProduto ServicoAplicacaoProduto;
@@ -45,13 +47,27 @@ namespace SistemaVenda.Controllers
         {
             if (ModelState.IsValid)
             {
-                entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
-                ServicoAplicacaoVenda.Cadastrar(entidade);
+                try
+                {
+                    entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
+                    ServicoAplicacaoVenda.Cadastrar(entidade);
+                    MensagemSucesso("Venda cadastrada com sucesso.");
+                }
+                catch (MensagemErroException ex)
+                {
+                    MensagemErro(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MensagemErro("Erro ao deletar Venda.");
+                }
             }
             else
             {
                 entidade.ListaClientes = ServicoAplicacaoCliente.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
                 entidade.ListaProdutos = ServicoAplicacaoProduto.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
+                MensagemErro("Necessário preencher todos os campos obrigatórios.");
+
                 return View(entidade);
             }
 
@@ -61,7 +77,20 @@ namespace SistemaVenda.Controllers
         [HttpPost]
         public IActionResult Deletar(int id)
         {
-            ServicoAplicacaoVenda.Excluir(id);
+            try
+            {
+                ServicoAplicacaoVenda.Excluir(id);
+                MensagemSucesso("Venda deletada com sucesso.");
+            }
+            catch (MensagemErroException ex)
+            {
+                MensagemErro(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MensagemErro("Erro ao deletar Venda.");
+            }
+
             return RedirectToAction("Index");
         }
 

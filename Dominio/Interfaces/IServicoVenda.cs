@@ -8,6 +8,8 @@ namespace Dominio.Interfaces
 {
     public interface IServicoVenda : IServicoCRUD<Venda>
     {
+        IEnumerable<Venda> CarregarRegistroPorCliente(int id);
+        IEnumerable<SistemaVenda.Dominio.Entidades.VendaProdutos> CarregarRegistroPorProduto(int id);
         IEnumerable<GraficoViewModel> ListaTotalVendasPorProduto(int CodigoUsuario);
         IEnumerable<GraficoViewModel> ListaTotalVendasPorCategoria(int CodigoUsuario);
         IEnumerable<GraficoViewModel> ListaTotalVendasPorCliente(int CodigoUsuario);

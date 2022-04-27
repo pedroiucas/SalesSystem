@@ -8,10 +8,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using SistemaVenda.Helpers;
+using Aplicacao.Controllers;
+using Aplicacao.Helpers;
 
 namespace SistemaVenda.Controllers
 {
-    public class ClienteController : Controller
+    public class ClienteController : MensagemController
     {
         private readonly IServicoAplicacaoCliente ServicoAplicacaoCliente;
 
@@ -37,11 +39,25 @@ namespace SistemaVenda.Controllers
         {
             if (ModelState.IsValid)
             {
-                entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
-                ServicoAplicacaoCliente.Cadastrar(entidade);
+                try
+                {
+                    entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
+                    ServicoAplicacaoCliente.Cadastrar(entidade);
+
+                    MensagemSucesso("Cliente cadastrado com sucesso.");
+                }
+                catch (MensagemErroException ex)
+                {
+                    MensagemErro(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MensagemErro("Erro ao cadastrar cliente.");
+                }
             }
             else
             {
+                MensagemErro("Necessário preencher todos os campos obrigatórios.");
                 return View(entidade);
             }
 
@@ -59,7 +75,19 @@ namespace SistemaVenda.Controllers
         [HttpPost]
         public IActionResult Deletar(int id)
         {
-            ServicoAplicacaoCliente.Excluir(id);
+            try
+            {
+                ServicoAplicacaoCliente.Excluir(id);
+                MensagemSucesso("Cliente deletado com sucesso.");
+            }
+            catch (MensagemErroException ex)
+            {
+                MensagemErro(ex.Message);
+            }catch (Exception ex)
+            {
+                MensagemErro("Erro ao deletar cliente.");
+            }
+
             return RedirectToAction("Index");
         }
     }

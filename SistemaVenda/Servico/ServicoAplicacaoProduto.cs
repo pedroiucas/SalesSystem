@@ -1,4 +1,5 @@
-﻿using Aplicacao.Servico.Interfaces;
+﻿using Aplicacao.Helpers;
+using Aplicacao.Servico.Interfaces;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaVenda.Dominio.Entidades;
@@ -11,10 +12,12 @@ namespace Aplicacao.Servico
     public class ServicoAplicacaoProduto : IServicoAplicacaoProduto
     {
         private IServicoProduto ServicoProduto;
+        private IServicoVenda ServicoVenda;
 
-        public ServicoAplicacaoProduto(IServicoProduto ServicoProduto)
+        public ServicoAplicacaoProduto(IServicoProduto ServicoProduto, IServicoVenda ServicoVenda)
         {
             this.ServicoProduto = ServicoProduto;
+            this.ServicoVenda = ServicoVenda;
         }
 
         public void Cadastrar(ProdutoViewModel Produto)
@@ -34,6 +37,10 @@ namespace Aplicacao.Servico
 
         public void Excluir(int codigo)
         {
+            if (VerificaVinculoComVenda(codigo))
+            {
+                throw new MensagemErroException("Não é possível deletar o produto pois ele está vínculado a uma venda.");
+            }
             ServicoProduto.Excluir(codigo);
         }
 
@@ -98,6 +105,18 @@ namespace Aplicacao.Servico
             }
 
             return listaSelect;
+        }
+
+        public bool VerificaVinculoComVenda(int codigo)
+        {
+            var produto = ServicoVenda.CarregarRegistroPorProduto(codigo);
+
+            if (produto.Count() > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

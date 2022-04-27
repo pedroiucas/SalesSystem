@@ -3,6 +3,7 @@ using Dominio.Repositorio;
 using SistemaVenda.Dominio.DTO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Dominio.Servicos.Venda
@@ -26,6 +27,16 @@ namespace Dominio.Servicos.Venda
         public SistemaVenda.Dominio.Entidades.Venda CarregarRegistro(int id)
         {
             return RepositorioVenda.Read(id);
+        }
+
+        public IEnumerable<SistemaVenda.Dominio.Entidades.Venda> CarregarRegistroPorCliente(int id)
+        {
+            return RepositorioVenda.Read().Where(e => e.CodigoCliente == id);
+        }
+
+        public IEnumerable<SistemaVenda.Dominio.Entidades.VendaProdutos> CarregarRegistroPorProduto(int id)
+        {
+            return RepositorioVendaProdutos.CarregarVendaPorProduto(id);
         }
 
         public void Excluir(int id)

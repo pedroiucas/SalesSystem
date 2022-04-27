@@ -7,6 +7,6 @@ namespace Dominio.Interfaces
 {
     public interface IServicoProduto : IServicoCRUD<Produto>
     {
-
+        IEnumerable<Produto> CarregarRegistroPorCategoria(int codigo);
     }
 }

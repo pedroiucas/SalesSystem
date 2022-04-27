@@ -23,6 +23,11 @@ namespace Repositorio.Entidades
             return DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto).Where(e => e.Venda.Codigo == CodigoVenda);
         }
 
+        public IEnumerable<VendaProdutos> CarregarVendaPorProduto(int codigo)
+        {
+            return DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto).Where(e => e.CodigoProduto == codigo);
+        }
+
         public IEnumerable<GraficoViewModel> ListaTotalValorPorProduto(int CodigoUsuario)
         {
             var lista = DbSetContext.VendaProdutos.OrderBy(y => y.CodigoProduto).Where(e => e.Produto.CodigoUsuario == CodigoUsuario)

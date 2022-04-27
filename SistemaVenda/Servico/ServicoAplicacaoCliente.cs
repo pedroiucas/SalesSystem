@@ -1,4 +1,5 @@
-﻿using Aplicacao.Servico.Interfaces;
+﻿using Aplicacao.Helpers;
+using Aplicacao.Servico.Interfaces;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaVenda.Dominio.Entidades;
@@ -11,10 +12,12 @@ namespace Aplicacao.Servico
     public class ServicoAplicacaoCliente : IServicoAplicacaoCliente
     {
         private IServicoCliente ServicoCliente;
+        private IServicoVenda ServicoVenda;
 
-        public ServicoAplicacaoCliente(IServicoCliente ServicoCliente)
+        public ServicoAplicacaoCliente(IServicoCliente ServicoCliente, IServicoVenda ServicoVenda)
         {
             this.ServicoCliente = ServicoCliente;
+            this.ServicoVenda = ServicoVenda;
         }
 
         public void Cadastrar(ClienteViewModel cliente)
@@ -34,6 +37,11 @@ namespace Aplicacao.Servico
 
         public void Excluir(int codigo)
         {
+            if (VerificaVinculoVenda(codigo))
+            {
+                throw new MensagemErroException("Não é possível deletar o cliente pois ele está vínculado a uma venda.");
+            }
+
             ServicoCliente.Excluir(codigo);
         }
 
@@ -96,6 +104,18 @@ namespace Aplicacao.Servico
             }
 
             return listaSelect;
+        }
+
+        public bool VerificaVinculoVenda(int id)
+        {
+            var venda = ServicoVenda.CarregarRegistroPorCliente(id).ToList();
+
+            if (venda.Count() > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

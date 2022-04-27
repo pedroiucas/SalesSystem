@@ -1,4 +1,5 @@
-﻿using Aplicacao.Servico.Interfaces;
+﻿using Aplicacao.Helpers;
+using Aplicacao.Servico.Interfaces;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,10 +14,12 @@ namespace Aplicacao.Servico
     public class ServicoAplicacaoCategoria : IServicoAplicacaoCategoria
     {
         private IServicoCategoria ServicoCategoria;
+        private IServicoProduto ServicoProduto;
 
-        public ServicoAplicacaoCategoria(IServicoCategoria ServicoCategoria)
+        public ServicoAplicacaoCategoria(IServicoCategoria ServicoCategoria, IServicoProduto ServicoProduto)
         {
             this.ServicoCategoria = ServicoCategoria;
+            this.ServicoProduto = ServicoProduto;
         }
 
         public void Cadastrar(CategoriaViewModel categoria)
@@ -32,6 +35,11 @@ namespace Aplicacao.Servico
 
         public void Excluir(int codigo)
         {
+            if (VerificaVinculoProduto(codigo))
+            {
+                throw new MensagemErroException("Não é possível deletar a categoria pois ela está vínculada a um produto.");
+            }
+
             ServicoCategoria.Excluir(codigo);
         }
 
@@ -88,6 +96,18 @@ namespace Aplicacao.Servico
             }
 
             return listaSelect;
+        }
+
+        public bool VerificaVinculoProduto(int codigo)
+        {
+            var categoria = ServicoProduto.CarregarRegistroPorCategoria(codigo).ToList();
+
+            if (categoria.Count() > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

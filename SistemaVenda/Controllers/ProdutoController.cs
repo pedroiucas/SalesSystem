@@ -8,10 +8,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using SistemaVenda.Helpers;
+using Aplicacao.Controllers;
+using Aplicacao.Helpers;
 
 namespace SistemaVenda.Controllers
 {
-    public class ProdutoController : Controller
+    public class ProdutoController : MensagemController
     {
         private readonly IServicoAplicacaoProduto ServicoAplicacaoProduto;
         private readonly IServicoAplicacaoCategoria ServicoAplicacaoCategoria;
@@ -41,12 +43,25 @@ namespace SistemaVenda.Controllers
         {
             if (ModelState.IsValid)
             {
-                entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
-                ServicoAplicacaoProduto.Cadastrar(entidade);
+                try
+                {
+                    entidade.CodigoUsuario = HttpContext.Session.GetInt32(Sessao.CodigoUsuario);
+                    ServicoAplicacaoProduto.Cadastrar(entidade);
+                    MensagemSucesso("Produto cadastrado com sucesso.");
+                }
+                catch (MensagemErroException ex)
+                {
+                    MensagemErro(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MensagemErro("Erro ao cadastrar produto.");
+                }
             }
             else
             {
                 entidade.ListaCategorias = ServicoAplicacaoCategoria.ListagemSelectList((int)HttpContext.Session.GetInt32(Sessao.CodigoUsuario));
+                MensagemErro("Necessário preencher todos os campos obrigatórios.");
                 return View(entidade);
             }
 
@@ -64,7 +79,20 @@ namespace SistemaVenda.Controllers
         [HttpPost]
         public IActionResult Deletar(int id)
         {
-            ServicoAplicacaoProduto.Excluir(id);
+            try
+            {
+                ServicoAplicacaoProduto.Excluir(id);
+                MensagemSucesso("Produto deletado com sucesso.");
+            }
+            catch (MensagemErroException ex)
+            {
+                MensagemErro(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MensagemErro("Erro ao deletar produto.");
+            }
+
             return RedirectToAction("Index");
         }
     }
