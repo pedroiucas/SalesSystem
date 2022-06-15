@@ -67,7 +67,15 @@ namespace SistemaVenda.Controllers
                 }
                 catch (Exception ex)
                 {
-                    MensagemErro("Erro ao deletar Venda.");
+
+                    if (entidade.Codigo != 0 && entidade.Codigo != null)
+                    {
+                        MensagemErro("Erro ao editar Venda.");
+                    }
+                    else
+                    {
+                        MensagemErro("Erro ao cadastrar Venda.");
+                    }
                 }
             }
             else

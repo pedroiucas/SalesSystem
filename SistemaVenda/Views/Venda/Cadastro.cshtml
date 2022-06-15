@@ -28,11 +28,14 @@
                         <input type="text" asp-for="Data" value="@data" class="form-control"  id="datepicker">
                         <span asp-validation-for="Data" class="text-danger"></span>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <label>Cliente</label>
                         <input type="hidden" asp-for="ListaClientes" value="@Model.ListaClientes" class="form-control" />
                         <select asp-for="CodigoCliente" asp-items="@Model.ListaClientes" class="form-control" input-lg></select>
                         <span asp-validation-for="CodigoCliente" class="text-danger"></span>
+                    </div>
+                    <div class="col-2">
+                        <a href="@Url.Action("Cadastro","Cliente")" style="top: 24px; position: relative;" class="btn btn-success">Novo Cliente</a>
                     </div>
                 </div>
             </div>
